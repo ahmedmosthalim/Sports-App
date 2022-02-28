@@ -35,6 +35,7 @@ class SportsCollectionViewController: UICollectionViewController , UICollectionV
 //              x  print(result)
             case .failure(let error) :
                 print("failed")
+                print(error)
             }
         }
 

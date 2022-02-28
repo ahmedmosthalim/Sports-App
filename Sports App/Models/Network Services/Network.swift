@@ -101,17 +101,17 @@ static let shared = Network()
 //    {
         func fetchAllLeagues(countryName CountryNames : String,oneSport sport : String,completion: @escaping (Result<[Leagues],Error>)->Void)
         {
-            let countriesLeague = ["","","","","","","","",""]
+//            let countriesLeague = ["","","","","","","","",""]
         guard let url   = URL(string: "https://www.thesportsdb.com/api/v1/json/2/search_all_leagues.php?c=\(CountryNames)&s=\(sport)") else { return }
                 let request     = URLRequest(url: url)
                 let session     = URLSession(configuration: URLSessionConfiguration.default)
                 let task        = session.dataTask(with: request) { data, response, error in
-                    do {
+                    do{
                         guard let safeData = data else { return }
                         let countrys = try! JSONDecoder().decode(Country.self, from: safeData)
                         completion(.success(countrys.countrys ?? []))
 //                        print(country)
-                    } catch  {
+                    }catch{
                         print("Error : \(error.localizedDescription)")
                     }
                 }

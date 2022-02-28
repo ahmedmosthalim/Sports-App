@@ -39,6 +39,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 }
             case .failure(let error) :
                 print("failed")
+                print(error)
             }
         }
         Network.shared.fetchAllLeagues(countryName: "France",oneSport: filteredSports!){ [weak self]
@@ -53,6 +54,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 print("Success Country")
             case .failure(let error) :
                 print("failed")
+                print(error)
             }
         }
         Network.shared.fetchAllLeagues(countryName: "Spain",oneSport: filteredSports!){ [weak self]
@@ -67,6 +69,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 }
             case .failure(let error) :
                 print("failed")
+                print(error)
             }
         }
         Network.shared.fetchAllLeagues(countryName: "Italy",oneSport: filteredSports!){ [weak self]
@@ -81,6 +84,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 }
             case .failure(let error) :
                 print("failed")
+                print(error)
             }
         }
         Network.shared.fetchAllLeagues(countryName: "Worldwide",oneSport: filteredSports!){ [weak self]
@@ -95,6 +99,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 }
             case .failure(let error) :
                 print("failed")
+                print(error)
             }
         }
         Network.shared.fetchAllLeagues(countryName: "Europe",oneSport: filteredSports!){ [weak self]
@@ -109,6 +114,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 }
             case .failure(let error) :
                 print("failed")
+                print(error)
             }
         }
         Network.shared.fetchAllLeagues(countryName: "Germany",oneSport: filteredSports!){ [weak self]
@@ -123,6 +129,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 }
             case .failure(let error) :
                 print("failed")
+                print(error)
             }
         }
         super.viewWillAppear(true)
@@ -263,8 +270,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 cell.textLabel!.text = " "
                 return cell
         }
-        return cell
-    }
+     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }

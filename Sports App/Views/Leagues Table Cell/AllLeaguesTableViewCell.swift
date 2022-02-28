@@ -12,7 +12,7 @@ class AllLeaguesTableViewCell: UITableViewCell {
     @IBOutlet weak var leagueLabel: UILabel!
     @IBOutlet weak var leagueImage: UIImageView!
     @IBAction func leagueYoutubeMethod(_ sender: Any) {
-        let row = tag
+//        let row = tag
         
 //        switch (sectionNumber)
 //        {
