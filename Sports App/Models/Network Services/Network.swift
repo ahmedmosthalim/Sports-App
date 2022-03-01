@@ -117,5 +117,55 @@ static let shared = Network()
                 }
                 task.resume()
         }
-    
+    func fetchResults(LeagueId id : String,completion: @escaping (Result<[Events],Error>)->Void)
+    {
+    guard let url   = URL(string: "https://www.thesportsdb.com/api/v1/json/2/eventsseason.php?id=\(id)&s=2021-2022") else { return }
+            let request     = URLRequest(url: url)
+            let session     = URLSession(configuration: URLSessionConfiguration.default)
+            let task        = session.dataTask(with: request) { data, response, error in
+                do{
+                    guard let safeData = data else { return }
+                    let response = try! JSONDecoder().decode(EventsKey.self, from: safeData)
+                    completion(.success(response.events ?? []))
+                }catch{
+                    print("Error : \(error.localizedDescription)")
+                }
+            }
+            task.resume()
+    }
+    func fetchUpComingMatches(LeagueId id : String,completion: @escaping (Result<[Events],Error>)->Void)
+    {
+    guard let url   = URL(string: "https://www.thesportsdb.com/api/v1/json/2/eventsround.php?id=\(id)&r=28&s=2021-2022") else { return }
+            let request     = URLRequest(url: url)
+            let session     = URLSession(configuration: URLSessionConfiguration.default)
+            let task        = session.dataTask(with: request) { data, response, error in
+                do{
+                    guard let safeData = data else { return }
+                    let response = try! JSONDecoder().decode(EventsKey.self, from: safeData)
+                    completion(.success(response.events ?? []))
+                }catch{
+                    print("Error : \(error.localizedDescription)")
+                }
+            }
+            task.resume()
+    }
+    func fetchAllTeams (Leaguename name:String,completion: @escaping (Result<[Teams],Error>)->Void )
+    {
+        let newString = name.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
+        guard let url   = URL(string: "https://www.thesportsdb.com/api/v1/json/2/search_all_teams.php?l=\(newString)"
+) else { return }
+                let request     = URLRequest(url: url)
+                let session     = URLSession(configuration: URLSessionConfiguration.default)
+                let task        = session.dataTask(with: request) { data, response, error in
+                    do{
+                        guard let safeData = data else { return }
+                        let response = try! JSONDecoder().decode(TeamsKey.self, from: safeData)
+                        completion(.success(response.teams ?? []))
+                    }catch{
+                        print("Error : \(error.localizedDescription)")
+                    }
+                }
+                task.resume()
+        
+    }
 }

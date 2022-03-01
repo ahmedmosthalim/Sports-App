@@ -12,7 +12,8 @@ import Kingfisher
 class AllLeaguesTableViewController: UITableViewController {
     
     var allLeagues = [Leagues]()
-    var lEAgueId :String?
+    var lEAgueIdForSegue :String?
+    var leagueForSegue :Leagues?
     var filteredSports:String?
 
     var englishLeagues  = [Leagues]()
@@ -32,8 +33,7 @@ class AllLeaguesTableViewController: UITableViewController {
             switch result
             {
             case .success(let allLigas):
-                self?.englishLeagues = allLigas
-                print("Success Country")
+                self?.englishLeagues = allLigas.reversed()
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 }
@@ -51,7 +51,6 @@ class AllLeaguesTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 }
-                print("Success Country")
             case .failure(let error) :
                 print("failed")
                 print(error)
@@ -63,7 +62,6 @@ class AllLeaguesTableViewController: UITableViewController {
             {
             case .success(let allLigas):
                 self?.spanishLeagues = allLigas
-                print("Success Country")
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 }
@@ -78,7 +76,6 @@ class AllLeaguesTableViewController: UITableViewController {
             {
             case .success(let allLigas):
                 self?.italianLeagues = allLigas
-                print("Success Country")
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 }
@@ -93,7 +90,6 @@ class AllLeaguesTableViewController: UITableViewController {
             {
             case .success(let allLigas):
                 self?.worldWideLeagues = allLigas
-                print("Success Country")
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 }
@@ -108,7 +104,6 @@ class AllLeaguesTableViewController: UITableViewController {
             {
             case .success(let allLigas):
                 self?.europanLeagues = allLigas
-                print("Success Country")
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 }
@@ -123,7 +118,6 @@ class AllLeaguesTableViewController: UITableViewController {
             {
             case .success(let allLigas):
                 self?.germanLeagues = allLigas
-                print("Success Country")
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 }
@@ -280,30 +274,30 @@ class AllLeaguesTableViewController: UITableViewController {
         switch (indexPath.section)
         {
         case 0 :
-            lEAgueId = self.englishLeagues[indexPath.row].idLeague
-            performSegue(withIdentifier: "showLeagueDetail", sender: lEAgueId)
+            leagueForSegue = self.englishLeagues[indexPath.row]
+            performSegue(withIdentifier: "showLeagueDetail", sender: leagueForSegue)
         case 1 :
-            lEAgueId = self.frenchLeagues[indexPath.row].idLeague
-            performSegue(withIdentifier: "showLeagueDetail", sender: lEAgueId)
+            leagueForSegue = self.frenchLeagues[indexPath.row]
+            performSegue(withIdentifier: "showLeagueDetail", sender: leagueForSegue)
                 
         case 2 :
-            lEAgueId = self.spanishLeagues[indexPath.row].idLeague
-            performSegue(withIdentifier: "showLeagueDetail", sender: lEAgueId)
+            leagueForSegue = self.spanishLeagues[indexPath.row]
+            performSegue(withIdentifier: "showLeagueDetail", sender: leagueForSegue)
         case 3 :
-            lEAgueId = self.italianLeagues[indexPath.row].idLeague
-            performSegue(withIdentifier: "showLeagueDetail", sender: lEAgueId)
+            leagueForSegue = self.italianLeagues[indexPath.row]
+            performSegue(withIdentifier: "showLeagueDetail", sender: leagueForSegue)
         case 4 :
-            lEAgueId = self.germanLeagues[indexPath.row].idLeague
-            performSegue(withIdentifier: "showLeagueDetail", sender: lEAgueId)
+            leagueForSegue = self.germanLeagues[indexPath.row]
+            performSegue(withIdentifier: "showLeagueDetail", sender: leagueForSegue)
         case 5 :
-            lEAgueId = self.europanLeagues[indexPath.row].idLeague
-            performSegue(withIdentifier: "showLeagueDetail", sender: lEAgueId)
+            leagueForSegue = self.europanLeagues[indexPath.row]
+            performSegue(withIdentifier: "showLeagueDetail", sender: leagueForSegue)
         case 6 :
-            lEAgueId = self.worldWideLeagues[indexPath.row].idLeague
-            performSegue(withIdentifier: "showLeagueDetail", sender: lEAgueId)
+            leagueForSegue = self.worldWideLeagues[indexPath.row]
+            performSegue(withIdentifier: "showLeagueDetail", sender: leagueForSegue)
         default:
-            lEAgueId = self.englishLeagues[indexPath.row].idLeague
-            performSegue(withIdentifier: "showLeagueDetail", sender: lEAgueId)
+            leagueForSegue = self.englishLeagues[indexPath.row]
+            performSegue(withIdentifier: "showLeagueDetail", sender: leagueForSegue)
         }
         
     }
@@ -312,7 +306,7 @@ class AllLeaguesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "showLeagueDetail") {
             let vc = segue.destination as! LeagueDetailsViewController
-            vc.leagueID = lEAgueId
+            vc.league = leagueForSegue
         }
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

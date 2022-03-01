@@ -1,4 +1,3 @@
-import Foundation
 struct EventsKey : Codable {
     let events : [Events]?
 
@@ -7,9 +6,9 @@ struct EventsKey : Codable {
         case events = "events"
     }
 
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        events = try values.decodeIfPresent([Events].self, forKey: .events)
-    }
+//    init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        events = try values.decodeIfPresent([Events].self, forKey: .events)
+//    }
 
 }

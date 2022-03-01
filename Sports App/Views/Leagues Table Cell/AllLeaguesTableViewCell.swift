@@ -122,6 +122,7 @@ class AllLeaguesTableViewCell: UITableViewCell {
 //            break
 //
 //    }
+        
         let url :String = self.leagueLabel.text!
         let formattedString = url.replacingOccurrences(of:" ", with: "")
         let youtubeUrl = "https://www.youtube.com/results?search_query=" + formattedString

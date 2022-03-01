@@ -1,13 +1,13 @@
 //
-//  lastRoundCollectionViewCell.swift
+//  ResultsCollectionViewCell.swift
 //  Sports App
 //
-//  Created by Ahmed Mostafa on 28/02/2022.
+//  Created by Ahmed Mostafa on 01/03/2022.
 //
 
 import UIKit
 
-class lastRoundCollectionViewCell: UICollectionViewCell {
+class ResultsCollectionViewCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
