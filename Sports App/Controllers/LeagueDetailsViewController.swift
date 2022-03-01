@@ -13,6 +13,7 @@ class LeagueDetailsViewController: UIViewController  {
     var resultOfLeague = [Events]()
     var upComingEvents = [Events]()
     var allTeams = [Teams]()
+    var selectedTeam:Teams?
     
     
 //    init?(coder: NSCoder ,leagues : Leagues)
@@ -175,4 +176,25 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
     }
     
 }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+        switch (collectionView)
+        {
+        case allTeamsCollectionView :
+        selectedTeam =  allTeams[indexPath.row]
+        performSegue(withIdentifier: "showTeamDetails", sender:selectedTeam)
+        
+        default:
+            break
+    }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "showTeamDetails"
+    {
+        let obj = segue.destination as! TeamDetailsViewController
+        obj.team = selectedTeam
+    }
+    }
+    
 }
