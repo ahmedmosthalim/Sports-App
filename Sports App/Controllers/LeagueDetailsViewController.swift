@@ -43,8 +43,9 @@ class LeagueDetailsViewController: UIViewController  {
             case .success(let results):
                 self?.upComingEvents = results
                 print("Success Fetch Up Coming ")
-//                DispatchQueue.main.async {
-//                }
+                DispatchQueue.main.async {
+                    self?.upComingCollectionView.reloadData()
+                }
             case .failure(let error) :
                 print("failed")
                 print(error)
@@ -57,8 +58,9 @@ class LeagueDetailsViewController: UIViewController  {
             case .success(let results):
                 self?.resultOfLeague = results
                 print("Success Fetch Results")
-//                DispatchQueue.main.async {
-//                }
+                DispatchQueue.main.async {
+                    self?.resultsCollectionView.reloadData()
+                }
             case .failure(let error) :
                 print("failed")
                 print(error)
@@ -123,9 +125,9 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         switch (collectionView)
         {
         case resultsCollectionView:
-         return 1
+            return resultOfLeague.count
         case upComingCollectionView:
-         return 1
+            return upComingEvents.count
         case allTeamsCollectionView:
             return allTeams.count
         default :
@@ -139,9 +141,13 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         
         case resultsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "resultsCell", for: indexPath) as! ResultsCollectionViewCell
+            let url = URL(string:self.resultOfLeague[indexPath.row].strThumb!)
+            cell.resultsImage!.kf.setImage(with: url)
             return cell
         case upComingCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingCell", for: indexPath) as! UpcomingEventsCollectionViewCell
+            let url = URL(string:self.upComingEvents[indexPath.row].strThumb!)
+            cell.upComingImage!.kf.setImage(with: url)
             return cell
         case allTeamsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsCell", for: indexPath) as! allTeamsCollectionViewCell
@@ -158,6 +164,10 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch (collectionView)
         {
+        case resultsCollectionView:
+            return  CGSize (width: 200, height: 200)
+        case upComingCollectionView:
+            return  CGSize (width: 200, height: 200)
         case allTeamsCollectionView:
         return  CGSize (width: 150, height: 100)
         default :

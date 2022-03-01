@@ -119,7 +119,7 @@ static let shared = Network()
         }
     func fetchResults(LeagueId id : String,completion: @escaping (Result<[Events],Error>)->Void)
     {
-    guard let url   = URL(string: "https://www.thesportsdb.com/api/v1/json/2/eventsseason.php?id=\(id)&s=2021-2022") else { return }
+    guard let url   = URL(string: "https://www.thesportsdb.com/api/v1/json/2/eventsround.php?id=\(id)&r=27&s=2021-2022") else { return }
             let request     = URLRequest(url: url)
             let session     = URLSession(configuration: URLSessionConfiguration.default)
             let task        = session.dataTask(with: request) { data, response, error in

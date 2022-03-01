@@ -7,8 +7,9 @@
 
 import UIKit
 
-class ResultsCollectionViewCell: UICollectionViewCell {
-
+class ResultsCollectionViewCell: UICollectionViewCell  , UICollectionViewDelegateFlowLayout{
+    @IBOutlet weak var resultsImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

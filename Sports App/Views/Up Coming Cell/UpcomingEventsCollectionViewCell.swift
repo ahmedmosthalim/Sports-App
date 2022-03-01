@@ -7,8 +7,10 @@
 
 import UIKit
 
-class UpcomingEventsCollectionViewCell: UICollectionViewCell {
-
+class UpcomingEventsCollectionViewCell: UICollectionViewCell , UICollectionViewDelegateFlowLayout {
+    
+    @IBOutlet weak var upComingImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
