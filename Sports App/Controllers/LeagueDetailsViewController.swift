@@ -6,11 +6,21 @@ import CloudKit
 class LeagueDetailsViewController: UIViewController  {
 
 
+    @IBOutlet weak var favImage: UIImageView!
     @IBOutlet weak var leagueId: UIImageView!
     @IBOutlet weak var leagueLabel: UILabel!
     @IBOutlet weak var upComingCollectionView: UICollectionView!
     @IBOutlet weak var allTeamsCollectionView: UICollectionView!
     @IBOutlet weak var resultsCollectionView: UICollectionView!
+    
+    
+    @IBAction func addToFavLeagues(_ sender: Any) {
+        favImage.image = UIImage(named: "AGoldStar")
+    }
+    
+    
+    
+    
     var league:Leagues?
     var resultOfLeague = [Events]()
     var upComingEvents = [Events]()
