@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import CoreData
 class TeamDetailsViewController: UIViewController {
 
     
@@ -42,6 +42,8 @@ class TeamDetailsViewController: UIViewController {
         UIApplication.shared.openURL(NSURL(string: webSiteUrl)! as URL)
     }
     
+    
+
     
     @IBOutlet weak var strTeamJersey: UIImageView!
     @IBOutlet weak var teamHeader: UIImageView!
@@ -89,5 +91,5 @@ class TeamDetailsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
 }

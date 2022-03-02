@@ -20,6 +20,12 @@ class SportsCollectionViewController: UICollectionViewController , UICollectionV
     }
 
     override func viewDidLoad() {
+        
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.center = self.view.center
+        self.view.addSubview(indicator)
+        indicator.startAnimating()
+        
         let manger = Network()
         manger.fetchAllSports{
             (result) in
@@ -30,6 +36,7 @@ class SportsCollectionViewController: UICollectionViewController , UICollectionV
                 print(self.allSpostrs.count)
                 DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                    indicator.stopAnimating()
                 }
                 print("Success")
 //              x  print(result)

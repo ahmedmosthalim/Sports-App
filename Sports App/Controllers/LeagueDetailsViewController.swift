@@ -2,10 +2,13 @@
 
 import UIKit
 import CloudKit
+import CoreData
 
 class LeagueDetailsViewController: UIViewController  {
 
 
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     @IBOutlet weak var favImage: UIImageView!
     @IBOutlet weak var leagueId: UIImageView!
     @IBOutlet weak var leagueLabel: UILabel!
@@ -16,9 +19,12 @@ class LeagueDetailsViewController: UIViewController  {
     
     @IBAction func addToFavLeagues(_ sender: Any) {
         favImage.image = UIImage(named: "AGoldStar")
+        saveToCoredata(savedLeague: league!)
     }
     
-    
+    @IBAction func getDataFromCoredata(_ sender: Any) {
+        fetchLeaguesFromCoredata()
+    }
     
     
     var league:Leagues?
@@ -42,13 +48,24 @@ class LeagueDetailsViewController: UIViewController  {
         super.viewWillAppear(true)
     }
     override func viewDidLoad() {
+        
+
         super.viewDidLoad()
+        
+        
+        
         leagueLabel.text = league?.strLeagueAlternate
         let url = URL(string:(league?.strBadge!)!)
         leagueId!.kf.setImage(with: url)
+        
+        
+        
         upComingCollectionView.register(UINib(nibName: "UpcomingEventsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "upComingCell")
+        
         allTeamsCollectionView.register(UINib(nibName: "allTeamsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "teamsCell")
+        
         resultsCollectionView.register(UINib(nibName: "ResultsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "resultsCell")
+        
         guard let league = league else {
             return
         }
@@ -89,10 +106,6 @@ class LeagueDetailsViewController: UIViewController  {
             case .success(let results):
                 self?.allTeams = results
                 print("Success Fetch All teams")
-                for i in 0..<self!.allTeams.count
-                {
-                    print(self!.allTeams[i].strTeam!)
-                }
                 DispatchQueue.main.async {
                     self!.allTeamsCollectionView.reloadData()
                 }
@@ -219,5 +232,27 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         obj.team = selectedTeam
     }
     }
+    func saveToCoredata(savedLeague selectedLeague : Leagues)
+    {
+        
+        let favLeagues = FavouriteLeague(context: context)
+        favLeagues.leagueID = selectedLeague.idLeague
+        favLeagues.leagueName = selectedLeague.strLeague
+        favLeagues.leagueBadge = selectedLeague.strBadge
+        try! context.save()
+    }
     
+    func fetchLeaguesFromCoredata()
+    {
+//        do{
+//            
+//            let fav = try context.fetch(FavouriteLeague.fetchRequest())
+//            print(fav.count)
+//            
+//        }
+//        catch
+//        {
+//            print(error)
+//        }
+    }
 }

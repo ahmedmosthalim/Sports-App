@@ -27,6 +27,10 @@ class AllLeaguesTableViewController: UITableViewController {
     let youtubeSearch : String = "https://www.youtube.com/results?search_query="
     
     override func viewWillAppear(_ animated: Bool) {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.center = self.view.center
+        self.view.addSubview(indicator)
+        indicator.startAnimating()
         self.navigationItem.title = filteredSports
         Network.shared.fetchAllLeagues(countryName: "England",oneSport: filteredSports!){ [weak self]
             (result) in
@@ -36,6 +40,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 self?.englishLeagues = allLigas.reversed()
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                    indicator.stopAnimating()
                 }
             case .failure(let error) :
                 print("failed")
@@ -50,6 +55,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 self?.frenchLeagues = allLigas
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                    indicator.stopAnimating()
                 }
             case .failure(let error) :
                 print("failed")
@@ -64,6 +70,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 self?.spanishLeagues = allLigas
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                    indicator.stopAnimating()
                 }
             case .failure(let error) :
                 print("failed")
@@ -78,6 +85,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 self?.italianLeagues = allLigas
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                    indicator.stopAnimating()
                 }
             case .failure(let error) :
                 print("failed")
@@ -92,6 +100,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 self?.worldWideLeagues = allLigas
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                    indicator.stopAnimating()
                 }
             case .failure(let error) :
                 print("failed")
@@ -106,6 +115,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 self?.europanLeagues = allLigas
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                    indicator.stopAnimating()
                 }
             case .failure(let error) :
                 print("failed")
@@ -120,6 +130,7 @@ class AllLeaguesTableViewController: UITableViewController {
                 self?.germanLeagues = allLigas
                 DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                    indicator.stopAnimating()
                 }
             case .failure(let error) :
                 print("failed")
@@ -127,6 +138,7 @@ class AllLeaguesTableViewController: UITableViewController {
             }
         }
         super.viewWillAppear(true)
+
     }
     override func viewDidLoad() {
         super.viewDidLoad()
