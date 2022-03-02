@@ -6,6 +6,8 @@ import CloudKit
 class LeagueDetailsViewController: UIViewController  {
 
 
+    @IBOutlet weak var leagueId: UIImageView!
+    @IBOutlet weak var leagueLabel: UILabel!
     @IBOutlet weak var upComingCollectionView: UICollectionView!
     @IBOutlet weak var allTeamsCollectionView: UICollectionView!
     @IBOutlet weak var resultsCollectionView: UICollectionView!
@@ -31,6 +33,9 @@ class LeagueDetailsViewController: UIViewController  {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        leagueLabel.text = league?.strLeagueAlternate
+        let url = URL(string:(league?.strBadge!)!)
+        leagueId!.kf.setImage(with: url)
         upComingCollectionView.register(UINib(nibName: "UpcomingEventsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "upComingCell")
         allTeamsCollectionView.register(UINib(nibName: "allTeamsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "teamsCell")
         resultsCollectionView.register(UINib(nibName: "ResultsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "resultsCell")
@@ -144,11 +149,19 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "resultsCell", for: indexPath) as! ResultsCollectionViewCell
             let url = URL(string:self.resultOfLeague[indexPath.row].strThumb!)
             cell.resultsImage!.kf.setImage(with: url)
+            cell.strEvent.text = self.resultOfLeague[indexPath.row].strEvent
+            cell.strHomeTeam.text = self.resultOfLeague[indexPath.row].strHomeTeam
+            cell.strAwayTeam.text = self.resultOfLeague[indexPath.row].strAwayTeam
+            cell.intHomeScore.text = self.resultOfLeague[indexPath.row].intHomeScore
+            cell.intAwayScore.text = self.resultOfLeague[indexPath.row].intAwayScore
+            cell.strVenue.text = self.resultOfLeague[indexPath.row].strVenue
             return cell
         case upComingCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingCell", for: indexPath) as! UpcomingEventsCollectionViewCell
             let url = URL(string:self.upComingEvents[indexPath.row].strThumb!)
             cell.upComingImage!.kf.setImage(with: url)
+            cell.strHomeTeam.text = self.upComingEvents[indexPath.row].strHomeTeam
+            cell.strAwayTeam.text = self.upComingEvents[indexPath.row].strAwayTeam
             return cell
         case allTeamsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsCell", for: indexPath) as! allTeamsCollectionViewCell

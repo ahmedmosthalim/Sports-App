@@ -8,7 +8,8 @@
 import UIKit
 
 class UpcomingEventsCollectionViewCell: UICollectionViewCell , UICollectionViewDelegateFlowLayout {
-    
+    @IBOutlet weak var strHomeTeam: UILabel!
+    @IBOutlet weak var strAwayTeam: UILabel!
     @IBOutlet weak var upComingImage: UIImageView!
     
     override func awakeFromNib() {
