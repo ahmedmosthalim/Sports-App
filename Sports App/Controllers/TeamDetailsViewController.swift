@@ -36,6 +36,12 @@ class TeamDetailsViewController: UIViewController {
         UIApplication.shared.openURL(NSURL(string: webSiteUrl)! as URL)
     }
     
+    @IBAction func youTubeMehod(_ sender: Any) {
+        let url :String = (self.team?.strYoutube)!
+        let webSiteUrl = "https://\(url)"
+        UIApplication.shared.openURL(NSURL(string: webSiteUrl)! as URL)
+    }
+    
     
     @IBOutlet weak var strTeamJersey: UIImageView!
     @IBOutlet weak var teamHeader: UIImageView!
