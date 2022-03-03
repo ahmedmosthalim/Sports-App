@@ -14,7 +14,7 @@ class FavLeaguesTableViewController: UITableViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     var favoLeagues=[FavouriteLeague]()
-    
+        var leagueForSegue:FavouriteLeague?
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         fetchLeaguesFromCoredata()
@@ -61,7 +61,7 @@ class FavLeaguesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favCell", for: indexPath)
 
-        cell.textLabel?.text = favoLeagues[indexPath.row].leagueName
+        cell.textLabel?.text = favoLeagues[indexPath.row].strLeague
         // Configure the cell...
 
         return cell
@@ -69,7 +69,23 @@ class FavLeaguesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        leagueForSegue?.strBadge! = self.favoLeagues[indexPath.row].strBadge!
+//        leagueForSegue?.strLeague! = self.favoLeagues[indexPath.row].strLeague!
+//        leagueForSegue?.strSport! = self.favoLeagues[indexPath.row].strSport!
+//        leagueForSegue?.idLeague! = self.favoLeagues[indexPath.row].idLeague!
+//        leagueForSegue?.strLeagueAlternate! = self.favoLeagues[indexPath.row].strLeagueAlternate!
+//        leagueForSegue?.strCountry! = self.favoLeagues[indexPath.row].strCountry!
+        leagueForSegue = favoLeagues[indexPath.row] 
+        performSegue(withIdentifier: "showLeagueDetailsFromFav", sender: leagueForSegue)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "showLeagueDetailsFromFav") {
+            let vc = segue.destination as! LeagueDetailsViewController
+//            let formattedString = leagueForSegue?.strLeague!.replacingOccurrences(of:" ", with: "%20")
+            vc.leagueFromCoredata = leagueForSegue
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

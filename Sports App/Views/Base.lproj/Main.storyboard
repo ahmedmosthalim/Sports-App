@@ -131,6 +131,7 @@
                                 <rect key="frame" x="20" y="613" width="374" height="138"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="tintColor"/>
+                                <color key="tintColor" red="0.59607843140000005" green="0.79215686269999996" blue="0.83529411760000005" alpha="0.70999999999999996" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ok5-23-bfM">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -622,10 +623,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="582-gv-mFW"/>
+                    <connections>
+                        <segue destination="oox-GV-hhZ" kind="presentation" identifier="showLeagueDetailsFromFav" id="xzc-Dz-kNE"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qKw-JZ-UCa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3501.449275362319" y="-356.25"/>
+            <point key="canvasLocation" x="3396" y="-356"/>
         </scene>
         <!--Sports-->
         <scene sceneID="N2H-DM-Uux">
@@ -666,6 +670,9 @@
             <point key="canvasLocation" x="2591.304347826087" y="-356.25"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="xzc-Dz-kNE"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="ABlackStar" width="1152" height="1002"/>
         <image name="cellWallpaper" width="300" height="168"/>

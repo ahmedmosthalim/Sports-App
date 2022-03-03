@@ -8,6 +8,8 @@ class LeagueDetailsViewController: UIViewController  {
 
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var fetchedLeagues = [FavouriteLeague]()
+    var allLeagues = [Leagues]()
     
     @IBOutlet weak var favImage: UIImageView!
     @IBOutlet weak var leagueId: UIImageView!
@@ -26,102 +28,167 @@ class LeagueDetailsViewController: UIViewController  {
         fetchLeaguesFromCoredata()
     }
     
-    
+    var leagueFromCoredata : FavouriteLeague?
     var league:Leagues?
     var resultOfLeague = [Events]()
     var upComingEvents = [Events]()
     var allTeams = [Teams]()
     var selectedTeam:Teams?
     
-    
-//    init?(coder: NSCoder ,leagues : Leagues)
-//    {
-//        self.league = leagues
-//        super.init(coder: coder)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
     override func viewWillAppear(_ animated: Bool) {
+        fetchLeaguesFromCoredata()
+        
+        for i in 0..<self.fetchedLeagues.count
+        {
+            if fetchedLeagues[i].strLeague == league?.strLeague
+            {
+                self.favImage.image = UIImage(named: "AGoldStar")
+                
+            }
+           
+        }
+       
         super.viewWillAppear(true)
     }
+    
     override func viewDidLoad() {
         
-
         super.viewDidLoad()
         
-        
-        
-        leagueLabel.text = league?.strLeagueAlternate
-        let url = URL(string:(league?.strBadge!)!)
-        leagueId!.kf.setImage(with: url)
-        
-        
-        
+       
         upComingCollectionView.register(UINib(nibName: "UpcomingEventsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "upComingCell")
         
         allTeamsCollectionView.register(UINib(nibName: "allTeamsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "teamsCell")
         
         resultsCollectionView.register(UINib(nibName: "ResultsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "resultsCell")
         
-        guard let league = league else {
-            return
+        if league != nil
+        {
+        
+        leagueLabel.text = league?.strLeagueAlternate
+                    let url = URL(string:(league?.strBadge!)!)
+                    leagueId!.kf.setImage(with: url)
+       
+        Network.shared.fetchUpComingMatches(LeagueId: (self.league?.idLeague!)!) { [weak self]
+          (result) in
+          switch result
+          {
+          case .success(let results):
+              self?.upComingEvents = results
+              print("Success Fetch Up Coming ")
+              DispatchQueue.main.async {
+                  self?.upComingCollectionView.reloadData()
+              }
+          case .failure(let error) :
+              print("failed")
+              print(error)
+          }
+      }
+    Network.shared.fetchResults(LeagueId: (self.league?.idLeague!)! ) { [weak self]
+          (result) in
+          switch result
+          {
+          case .success(let results):
+              self?.resultOfLeague = results
+              print("Success Fetch Results")
+              DispatchQueue.main.async {
+                  self?.resultsCollectionView.reloadData()
+              }
+          case .failure(let error) :
+              print("failed")
+              print(error)
+          }
+      }
+    Network.shared.fetchAllTeams(Leaguename: (self.league?.strLeague!)!) { [weak self]
+          (result) in
+          switch result
+          {
+          case .success(let results):
+              self?.allTeams = results
+              print("Success Fetch All teams")
+              DispatchQueue.main.async {
+                  self!.allTeamsCollectionView.reloadData()
+              }
+          case .failure(let error) :
+              print("failed")
+              print(error)
+          }
+      }
+//        guard league != nil else {
         }
-        Network.shared.fetchUpComingMatches(LeagueId: (self.league?.idLeague)!) { [weak self]
-            (result) in
-            switch result
-            {
-            case .success(let results):
-                self?.upComingEvents = results
-                print("Success Fetch Up Coming ")
-                DispatchQueue.main.async {
-                    self?.upComingCollectionView.reloadData()
-                }
-            case .failure(let error) :
-                print("failed")
-                print(error)
-            }
-        }
-        Network.shared.fetchResults(LeagueId: (self.league?.idLeague)!) { [weak self]
-            (result) in
-            switch result
-            {
-            case .success(let results):
-                self?.resultOfLeague = results
-                print("Success Fetch Results")
-                DispatchQueue.main.async {
-                    self?.resultsCollectionView.reloadData()
-                }
-            case .failure(let error) :
-                print("failed")
-                print(error)
-            }
-        }
-        Network.shared.fetchAllTeams(Leaguename: (self.league?.strLeague)!) { [weak self]
-            (result) in
-            switch result
-            {
-            case .success(let results):
-                self?.allTeams = results
-                print("Success Fetch All teams")
-                DispatchQueue.main.async {
-                    self!.allTeamsCollectionView.reloadData()
-                }
-            case .failure(let error) :
-                print("failed")
-                print(error)
-            }
-        }
-//        resultsCollectionView.register(UINib(nibName: "ResultsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "results")
+        else
+        {
+            
+            guard let sport = leagueFromCoredata?.strSport else{return}
+            guard let country = leagueFromCoredata?.strCountry else{return}
+            guard let id = leagueFromCoredata?.idLeague else{return}
+            guard let name = leagueFromCoredata?.strLeague else{return}
+            guard let badge = leagueFromCoredata?.strLeague else{return}
+            guard let alternate = leagueFromCoredata?.strLeagueAlternate else{return}
+            print(id)
+            leagueLabel.text = alternate
+            let url = URL(string:badge)
+            leagueId!.kf.setImage(with: url)
+            
 
-        // Do any additional setup after loading the view.
+            
+            upComingCollectionView.register(UINib(nibName: "UpcomingEventsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "upComingCell")
+            
+            allTeamsCollectionView.register(UINib(nibName: "allTeamsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "teamsCell")
+            
+            resultsCollectionView.register(UINib(nibName: "ResultsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "resultsCell")
+            
+          
+            Network.shared.fetchUpComingMatches(LeagueId: self.league?.idLeague ?? id) { [weak self]
+                (result) in
+                switch result
+                {
+                case .success(let results):
+                    self?.upComingEvents = results
+                    print("Success Fetch Up Coming ")
+                    DispatchQueue.main.async {
+                        self?.upComingCollectionView.reloadData()
+                    }
+                case .failure(let error) :
+                    print("failed")
+                    print(error)
+                }
+            }
+                Network.shared.fetchResults(LeagueId: self.league?.idLeague ?? id) { [weak self]
+                (result) in
+                switch result
+                {
+                case .success(let results):
+                    self?.resultOfLeague = results
+                    print("Success Fetch Results")
+                    DispatchQueue.main.async {
+                        self?.resultsCollectionView.reloadData()
+                    }
+                case .failure(let error) :
+                    print("failed")
+                    print(error)
+                }
+            }
+            Network.shared.fetchAllTeams(Leaguename: self.league?.strLeague ?? name) { [weak self]
+                (result) in
+                switch result
+                {
+                case .success(let results):
+                    self?.allTeams = results
+                    print("Success Fetch All teams")
+                    DispatchQueue.main.async {
+                        self!.allTeamsCollectionView.reloadData()
+                    }
+                case .failure(let error) :
+                    print("failed")
+                    print(error)
+                }
+            }
+            
+             }
     }
-    override func viewDidDisappear(_ animated: Bool) {
+   
     
-    }
-
 
     /*
     // MARK: - Navigation
@@ -236,23 +303,36 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
     {
         
         let favLeagues = FavouriteLeague(context: context)
-        favLeagues.leagueID = selectedLeague.idLeague
-        favLeagues.leagueName = selectedLeague.strLeague
-        favLeagues.leagueBadge = selectedLeague.strBadge
-        try! context.save()
+        fetchLeaguesFromCoredata()
+        for i in 0..<self.fetchedLeagues.count
+        {
+            if fetchedLeagues[i].strLeague == selectedLeague.strLeague
+            {
+                let alert = UIAlertController(title: "League is already Favoritued", message: "check Your fav List", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        context.delete(fetchedLeagues[i])
+                        
+            }else{
+                favLeagues.idLeague = selectedLeague.idLeague
+                favLeagues.strLeague = selectedLeague.strLeague
+                favLeagues.strBadge = selectedLeague.strBadge
+                favLeagues.strSport = selectedLeague.strSport
+                favLeagues.strCountry = selectedLeague.strCountry
+                favLeagues.strLeagueAlternate = selectedLeague.strLeagueAlternate
+                favLeagues.strYoutube = selectedLeague.strYoutube
+                try! context.save()
+            }
+        }
+      
     }
     
     func fetchLeaguesFromCoredata()
     {
-//        do{
-//            
-//            let fav = try context.fetch(FavouriteLeague.fetchRequest())
-//            print(fav.count)
-//            
-//        }
-//        catch
-//        {
-//            print(error)
-//        }
+        do{
+          fetchedLeagues  = try context.fetch(FavouriteLeague.fetchRequest())
+        }
+        catch
+        {print(error)}
     }
 }
