@@ -24,9 +24,6 @@ class LeagueDetailsViewController: UIViewController  {
         saveToCoredata(savedLeague: league!)
     }
     
-    @IBAction func getDataFromCoredata(_ sender: Any) {
-        fetchLeaguesFromCoredata()
-    }
     
     var leagueFromCoredata : FavouriteLeague?
     var league:Leagues?
