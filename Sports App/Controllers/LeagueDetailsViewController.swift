@@ -33,7 +33,7 @@ class LeagueDetailsViewController: UIViewController  {
     var selectedTeam:Teams?
     
     override func viewWillAppear(_ animated: Bool) {
-        fetchLeaguesFromCoredata()
+        fetchedLeagues  = fetchLeaguesFromCoredata()!
         
         for i in 0..<self.fetchedLeagues.count
         {
@@ -62,7 +62,7 @@ class LeagueDetailsViewController: UIViewController  {
         if league != nil
         {
         
-        leagueLabel.text = league?.strLeagueAlternate
+                    leagueLabel.text = league?.strLeague
                     let url = URL(string:(league?.strBadge!)!)
                     leagueId!.kf.setImage(with: url)
        
@@ -123,10 +123,10 @@ class LeagueDetailsViewController: UIViewController  {
             guard let badge = leagueFromCoredata?.strLeague else{return}
             guard let alternate = leagueFromCoredata?.strLeagueAlternate else{return}
             print(id)
-            leagueLabel.text = alternate
-            let url = URL(string:badge)
+            leagueLabel.text = name
+            let url = URL(string:(badge))
             leagueId!.kf.setImage(with: url)
-            
+            self.favImage.image = UIImage(named: "AGoldStar")
 
             
             upComingCollectionView.register(UINib(nibName: "UpcomingEventsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "upComingCell")
@@ -234,7 +234,7 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         
         case resultsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "resultsCell", for: indexPath) as! ResultsCollectionViewCell
-            let url = URL(string:self.resultOfLeague[indexPath.row].strThumb!)
+            let url = URL(string:self.resultOfLeague[indexPath.row].strThumb ?? "")
             cell.resultsImage!.kf.setImage(with: url)
             cell.strEvent.text = self.resultOfLeague[indexPath.row].strEvent
             cell.strHomeTeam.text = self.resultOfLeague[indexPath.row].strHomeTeam
@@ -245,7 +245,7 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
             return cell
         case upComingCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingCell", for: indexPath) as! UpcomingEventsCollectionViewCell
-            let url = URL(string:self.upComingEvents[indexPath.row].strThumb!)
+            let url = URL(string:self.upComingEvents[indexPath.row].strThumb ?? "")
             cell.upComingImage!.kf.setImage(with: url)
             cell.strHomeTeam.text = self.upComingEvents[indexPath.row].strHomeTeam
             cell.strAwayTeam.text = self.upComingEvents[indexPath.row].strAwayTeam
@@ -300,15 +300,16 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
     {
         
         let favLeagues = FavouriteLeague(context: context)
-        fetchLeaguesFromCoredata()
+        let  fetchedLeagues = fetchLeaguesFromCoredata()
         for i in 0..<self.fetchedLeagues.count
         {
-            if fetchedLeagues[i].strLeague == selectedLeague.strLeague
+            if  selectedLeague.strLeague == fetchedLeagues![i].strLeague
             {
                 let alert = UIAlertController(title: "League is already Favoritued", message: "check Your fav List", preferredStyle: UIAlertController.Style.alert)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                         self.present(alert, animated: true, completion: nil)
-                        context.delete(fetchedLeagues[i])
+                context.delete(fetchedLeagues![i])
+                
                         
             }else{
                 favLeagues.idLeague = selectedLeague.idLeague
@@ -324,12 +325,14 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
       
     }
     
-    func fetchLeaguesFromCoredata()
+    func fetchLeaguesFromCoredata()-> [FavouriteLeague]?
     {
         do{
-          fetchedLeagues  = try context.fetch(FavouriteLeague.fetchRequest())
+          return try context.fetch(FavouriteLeague.fetchRequest())
         }
         catch
-        {print(error)}
+        {print(error)
+            return nil
+        }
     }
 }

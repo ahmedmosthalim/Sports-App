@@ -61,9 +61,9 @@ class FavLeaguesTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "favCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "favCell", for: indexPath) as! FavLeaguesTableViewCell
 
-        cell.textLabel?.text = favoLeagues[indexPath.row].strLeague
+        cell.legLabel?.text = favoLeagues[indexPath.row].strLeague
         // Configure the cell...
 
         return cell
@@ -74,7 +74,7 @@ class FavLeaguesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         leagueForSegue = favoLeagues[indexPath.row]
         self.connectedOrNot()
-//        performSegue(withIdentifier: "showLeagueDetailsFromFav", sender: leagueForSegue)
+        performSegue(withIdentifier: "showLeagueDetailsFromFav", sender: leagueForSegue)
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -89,6 +89,7 @@ class FavLeaguesTableViewController: UITableViewController {
         reachability.whenReachable = { [self] reachability in
             if reachability.connection == .wifi {
                 performSegue(withIdentifier: "showLeagueDetailsFromFav", sender: leagueForSegue)
+                fetchLeaguesFromCoredata()
                 print("Reachable via WiFi")
             } else {
                 
