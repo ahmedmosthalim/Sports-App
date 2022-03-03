@@ -221,6 +221,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="addToFav" destination="nmF-NQ-wSf" id="ifM-Rc-JZE"/>
                         <outlet property="allTeamsCollectionView" destination="aZZ-5G-Ns2" id="ijg-zn-qqE"/>
                         <outlet property="favImage" destination="HMD-yM-RQK" id="ei3-zL-Dba"/>
                         <outlet property="leagueId" destination="Kaq-3f-usr" id="36g-7b-Nvs"/>
@@ -649,8 +650,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PXX-19-g0R" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favourite Leagues" image="heart" catalog="system" id="CJ6-Ru-HqZ"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7e0-jf-t2f">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="7e0-jf-t2f">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

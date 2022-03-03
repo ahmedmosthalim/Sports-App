@@ -15,7 +15,7 @@ class FavLeaguesTableViewController: UITableViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     var favoLeagues=[FavouriteLeague]()
-        var leagueForSegue:FavouriteLeague?
+    var leagueForSegue:FavouriteLeague?
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         fetchLeaguesFromCoredata()
@@ -73,7 +73,7 @@ class FavLeaguesTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         leagueForSegue = favoLeagues[indexPath.row]
-        self.connectedOrNot()
+//        self.connectedOrNot()
         performSegue(withIdentifier: "showLeagueDetailsFromFav", sender: leagueForSegue)
         
     }
@@ -119,17 +119,26 @@ class FavLeaguesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
+//            for i in 0..<self.favoLeagues.count
+//            {
+            if  favoLeagues[indexPath.row].strLeague == favoLeagues[indexPath.row].strLeague
+                {
+                    context.delete(favoLeagues[indexPath.row])
+//                    tableView.deleteRows(at: [indexPath], with: .fade)
+                favoLeagues.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+//                }
+           
+            }} else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.

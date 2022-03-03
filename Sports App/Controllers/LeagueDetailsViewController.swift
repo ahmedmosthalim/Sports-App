@@ -18,9 +18,11 @@ class LeagueDetailsViewController: UIViewController  {
     @IBOutlet weak var allTeamsCollectionView: UICollectionView!
     @IBOutlet weak var resultsCollectionView: UICollectionView!
     
+    @IBOutlet weak var addToFav: UIButton!
     
     @IBAction func addToFavLeagues(_ sender: Any) {
         favImage.image = UIImage(named: "AGoldStar")
+        
         saveToCoredata(savedLeague: league!)
     }
     
@@ -62,7 +64,7 @@ class LeagueDetailsViewController: UIViewController  {
         if league != nil
         {
         
-                    leagueLabel.text = league?.strLeague
+                    leagueLabel.text = league?.strLeagueAlternate
                     let url = URL(string:(league?.strBadge!)!)
                     leagueId!.kf.setImage(with: url)
        
@@ -120,14 +122,14 @@ class LeagueDetailsViewController: UIViewController  {
             guard let country = leagueFromCoredata?.strCountry else{return}
             guard let id = leagueFromCoredata?.idLeague else{return}
             guard let name = leagueFromCoredata?.strLeague else{return}
-            guard let badge = leagueFromCoredata?.strLeague else{return}
+            guard let badge = leagueFromCoredata?.strBadge else{return}
             guard let alternate = leagueFromCoredata?.strLeagueAlternate else{return}
             print(id)
             leagueLabel.text = name
             let url = URL(string:(badge))
             leagueId!.kf.setImage(with: url)
             self.favImage.image = UIImage(named: "AGoldStar")
-
+            addToFav.isEnabled = false
             
             upComingCollectionView.register(UINib(nibName: "UpcomingEventsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "upComingCell")
             
@@ -252,7 +254,7 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
             return cell
         case allTeamsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsCell", for: indexPath) as! allTeamsCollectionViewCell
-            let url = URL(string:self.allTeams[indexPath.row].strTeamBadge!)
+            let url = URL(string:self.allTeams[indexPath.row].strTeamBadge ?? "")
             cell.teamImage!.kf.setImage(with: url)
             return cell
         default :
