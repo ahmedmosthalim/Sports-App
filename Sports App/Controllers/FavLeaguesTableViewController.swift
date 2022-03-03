@@ -7,10 +7,11 @@
 
 import UIKit
 import CoreData
+import Reachability
 
 
 class FavLeaguesTableViewController: UITableViewController {
-    
+    var reachability = try! Reachability()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     var favoLeagues=[FavouriteLeague]()
@@ -21,6 +22,7 @@ class FavLeaguesTableViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         // Uncomment the following line to preserve selection between presentations
@@ -70,20 +72,42 @@ class FavLeaguesTableViewController: UITableViewController {
         return 150
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        leagueForSegue?.strBadge! = self.favoLeagues[indexPath.row].strBadge!
-//        leagueForSegue?.strLeague! = self.favoLeagues[indexPath.row].strLeague!
-//        leagueForSegue?.strSport! = self.favoLeagues[indexPath.row].strSport!
-//        leagueForSegue?.idLeague! = self.favoLeagues[indexPath.row].idLeague!
-//        leagueForSegue?.strLeagueAlternate! = self.favoLeagues[indexPath.row].strLeagueAlternate!
-//        leagueForSegue?.strCountry! = self.favoLeagues[indexPath.row].strCountry!
-        leagueForSegue = favoLeagues[indexPath.row] 
-        performSegue(withIdentifier: "showLeagueDetailsFromFav", sender: leagueForSegue)
+        leagueForSegue = favoLeagues[indexPath.row]
+        self.connectedOrNot()
+//        performSegue(withIdentifier: "showLeagueDetailsFromFav", sender: leagueForSegue)
+        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "showLeagueDetailsFromFav") {
+            
             let vc = segue.destination as! LeagueDetailsViewController
-//            let formattedString = leagueForSegue?.strLeague!.replacingOccurrences(of:" ", with: "%20")
             vc.leagueFromCoredata = leagueForSegue
+        }
+    }
+    func connectedOrNot()
+    {
+        reachability.whenReachable = { [self] reachability in
+            if reachability.connection == .wifi {
+                performSegue(withIdentifier: "showLeagueDetailsFromFav", sender: leagueForSegue)
+                print("Reachable via WiFi")
+            } else {
+                
+                print("Reachable via Cellular")
+            }
+        }
+        reachability.whenUnreachable = { _ in
+            print("Not reachable")
+            let alert = UIAlertController(title: "No Internet Connection", message: "check Your Connection", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+           
+        }
+
+        do {
+            try reachability.startNotifier()
+            
+        } catch {
+            print("Unable to start notifier")
         }
     }
     /*

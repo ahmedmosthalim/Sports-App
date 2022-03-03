@@ -590,7 +590,7 @@
             </objects>
             <point key="canvasLocation" x="3395.652173913044" y="302.00892857142856"/>
         </scene>
-        <!--Fav Leagues Table View Controller-->
+        <!--Favourite Leagues-->
         <scene sceneID="AEy-OT-Rdh">
             <objects>
                 <tableViewController id="Oj8-Nb-eQh" customClass="FavLeaguesTableViewController" customModule="Sports_App" customModuleProvider="target" sceneMemberID="viewController">
@@ -622,7 +622,7 @@
                             <outlet property="delegate" destination="Oj8-Nb-eQh" id="eIa-sW-JjC"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="582-gv-mFW"/>
+                    <navigationItem key="navigationItem" title="Favourite Leagues" largeTitleDisplayMode="always" id="582-gv-mFW"/>
                     <connections>
                         <segue destination="oox-GV-hhZ" kind="presentation" identifier="showLeagueDetailsFromFav" id="xzc-Dz-kNE"/>
                     </connections>
