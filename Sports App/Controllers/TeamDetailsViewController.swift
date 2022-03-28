@@ -67,16 +67,16 @@ class TeamDetailsViewController: UIViewController {
         let url = URL(string:(self.team?.strTeamBadge!)!)
         teamBadge!.kf.setImage(with: url)
         teamName.text = team.strTeam
-        let headerUrl = URL(string:(self.team?.strTeamBanner!)!)
+        let headerUrl = URL(string: self.team?.strTeamBanner ?? "")
         teamHeader!.kf.setImage(with:headerUrl)
         teamShortName.text = team.strTeamShort
         strStadiumLocation.text = team.strStadiumLocation
         intStadiumCapacity.text = team.intStadiumCapacity
         strStadium.text = team.strStadium
-        let stadiumUrl = URL(string:(self.team?.strStadiumThumb!)!)
+        let stadiumUrl = URL(string:self.team?.strStadiumThumb ?? "")
         strStadiumThumb.kf.setImage(with :stadiumUrl)
         strDescriptionEN.text = team.strDescriptionEN
-        let strTeamJerseyUrl = URL(string:(self.team?.strTeamJersey!)!)
+        let strTeamJerseyUrl = URL(string:self.team?.strTeamJersey ?? "")
         strTeamJersey.kf.setImage(with:strTeamJerseyUrl)
         // Do any additional setup after loading the view.
     }

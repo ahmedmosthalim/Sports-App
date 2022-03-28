@@ -303,17 +303,18 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         
         let favLeagues = FavouriteLeague(context: context)
         let  fetchedLeagues = fetchLeaguesFromCoredata()
-        for i in 0..<self.fetchedLeagues.count
-        {
-            if  selectedLeague.strLeague == fetchedLeagues![i].strLeague
-            {
-                let alert = UIAlertController(title: "League is already Favoritued", message: "check Your fav List", preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                context.delete(fetchedLeagues![i])
-                
-                        
-            }else{
+        
+//        for i in 0...self.fetchedLeagues.count
+//        {
+//            if  selectedLeague.strLeague == fetchedLeagues![i].strLeague
+//            {
+//                let alert = UIAlertController(title: "League is already Favoritued", message: "check Your fav List", preferredStyle: UIAlertController.Style.alert)
+//                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+//                        self.present(alert, animated: true, completion: nil)
+//                context.delete(fetchedLeagues![i])
+//
+//
+//            }else{
                 favLeagues.idLeague = selectedLeague.idLeague
                 favLeagues.strLeague = selectedLeague.strLeague
                 favLeagues.strBadge = selectedLeague.strBadge
@@ -322,8 +323,8 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
                 favLeagues.strLeagueAlternate = selectedLeague.strLeagueAlternate
                 favLeagues.strYoutube = selectedLeague.strYoutube
                 try! context.save()
-            }
-        }
+//            }
+//        }
       
     }
     
